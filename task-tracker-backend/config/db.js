@@ -1,8 +1,5 @@
-const { Pool, Connection } = require('pg');
-const dotenv = require("dotenv");
-const path = require("path");
-
-dotenv.config({ path: path.resolve("../.env") });
+const { Pool } = require('pg');
+require('dotenv').config();
 
 const pool = new Pool({
     host: process.env.DB_HOST,
