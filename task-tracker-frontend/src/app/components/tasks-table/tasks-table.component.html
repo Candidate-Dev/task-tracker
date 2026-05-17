@@ -1,0 +1,89 @@
+<!-- <button (click)="console()">Display tasks</button> -->
+
+<div class="border border-gray-300 rounded-md overflow-hidden">
+    <div class="flex border-b border-gray-300 mb-3 justify-between items-end">
+        <button (click)="openCreateTaskForm()" class="bg-indigo-600 m-3 px-3 py-2 rounded-md text-white text-sm font-bold hover:bg-indigo-400 hover:cursor-pointer" id="create-task">+ Create Task</button>
+        <div class="flex justify-end pt-3" id="status-filter-buttons-container">
+            <button 
+                (click) = "setFilterButtonActive('ALL')"
+                [ngClass]="activeFilterButton === 'ALL' ? 'bg-indigo-600 text-white hover:text-white' : 'bg-white text-gray-400'"
+                class="px-3 py-1 text-gray-400 rounded-t-lg text-xs font-semibold hover:cursor-pointer hover:text-gray-500"
+            >All</button>
+            <button
+                (click) = "setFilterButtonActive('PENDING')"
+                [ngClass]="activeFilterButton === 'PENDING' ? 'bg-indigo-600 text-white hover:text-white' : 'bg-white text-gray-400'" 
+                class="px-3 pb-1 text-gray-400 rounded-t-lg text-xs font-semibold hover:cursor-pointer hover:text-gray-500"
+            >Pending</button>
+            <button 
+                (click) = "setFilterButtonActive('IN PROGRESS')"
+                [ngClass]="activeFilterButton === 'IN PROGRESS' ? 'bg-indigo-600 text-white hover:text-white' : 'bg-white text-gray-400'"
+                class="px-3 pb-1 text-gray-400 rounded-t-lg text-xs font-semibold hover:cursor-pointer hover:text-gray-500"
+            >In Progress</button>
+            <button
+                (click) = "setFilterButtonActive('COMPLETED')"
+                [ngClass]="activeFilterButton === 'COMPLETED' ? 'bg-indigo-600 text-white hover:text-white' : 'bg-white text-gray-400'" 
+                class="px-3 pb-1 text-gray-400 rounded-t-lg text-xs font-semibold hover:cursor-pointer hover:text-gray-500"
+            >Completed</button>
+        </div>
+    </div>
+
+   <table class="w-full">
+        <thead class="bg-gray-200 border-b border-gray-300 text-gray-500">
+        <tr>
+            <th class="p-2 text-left"></th>
+            <th class="p-2 text-sm font-bold tracking-wide text-left">Id</th>
+            <th class="p-2 text-sm font-bold tracking-wide text-left">Title</th>
+            <th class="p-2 text-sm font-bold tracking-wide text-left">Description</th>
+            <th class="p-2 text-sm font-bold tracking-wide text-left">Status</th>
+            <th class="p-2 text-sm font-bold tracking-wide text-left">Due Date/Time</th>
+            <th class="p-2 text-left"></th>
+        </tr>   
+        </thead>
+
+        <tbody>
+            @for (task of filteredTasks; track task.id; let idx = $index) {
+                <tr class="odd:bg-white even:bg-gray-100">
+                    <td class="p-2"><input type="checkbox" class="hover:cursor-pointer"></td>
+                    <td class="p-2 text-sm text-gray-800">{{ task.id }}</td>
+                    <td class="p-2 text-sm text-gray-800">{{ task.title }}</td>
+                    <td class="p-2 text-sm text-gray-800">{{ task.description }}</td>
+                    <td>
+                        @if(task.status === 'COMPLETED'){
+                            <div (click)="toggleDropdown(task.id!)" class="border-2 text-xs w-fit py-1 px-2 rounded-md text-green-600 border-green-300 font-semibold border-green-300 hover:text-green-500 hover:border-green-200 hover:cursor-pointer">{{ task.status }}</div>
+                        }@else if (task.status === 'PENDING') {
+                            <div (click)="toggleDropdown(task.id!)" class="border-2 text-xs w-fit py-1 px-2 rounded-md text-yellow-500 border-amber-200 font-semibold hover:yellow-400 hover:border-amber-100 hover:cursor-pointer">{{ task.status }}</div>
+                        }@else if (task.status === 'IN PROGRESS') {
+                            <div (click)="toggleDropdown(task.id!)" class="border-2 text-xs w-fit py-1 px-2 rounded-md text-blue-400 border-blue-200 font-semibold hover:text-blue-300 hover:border-blue-100 hover:cursor-pointer">{{ task.status }}</div>
+                        }
+                        @if (openStatusDropdownTaskId === task.id) {
+                            <div class="absolute mt-1 w-36 rounded border bg-white shadow-md z-10">
+                                <div (click)="updateStatus(task.id, 'PENDING')" class="block w-full text-left px-3 py-2 text-xs hover:bg-gray-100 cursor-pointer">PENDING</div>
+                                <div (click)="updateStatus(task.id, 'COMPLETED')" class="block w-full text-left px-3 py-2 text-xs hover:bg-gray-100 cursor-pointer">COMPLETED</div>
+                                <div (click)="updateStatus(task.id, 'IN PROGRESS')" class="block w-full text-left px-3 py-2 text-xs hover:bg-gray-100 cursor-pointer">IN PROGRESS</div>
+                            </div>
+                        }
+                    </td>
+                    <td class="p-2 text-sm text-gray-800">{{ task.due_datetime | date:'medium' }}</td>
+                    <td>
+                        <button (click)="removeTask(task.id!)" class="text-gray-400 hover:text-red-600 hover:cursor-pointer">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 109.484 122.88"
+                                class="w-4 h-4"
+                                fill="currentColor"
+                            >
+                                <path
+                                  fill="currentColor"
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M2.347,9.633h38.297V3.76c0-2.068,1.689-3.76,3.76-3.76h21.144 c2.07,0,3.76,1.691,3.76,3.76v5.874h37.83c1.293,0,2.347,1.057,2.347,2.349v11.514H0V11.982C0,10.69,1.055,9.633,2.347,9.633 L2.347,9.633z M8.69,29.605h92.921c1.937,0,3.696,1.599,3.521,3.524l-7.864,86.229c-0.174,1.926-1.59,3.521-3.523,3.521h-77.3 c-1.934,0-3.352-1.592-3.524-3.521L5.166,33.129C4.994,31.197,6.751,29.605,8.69,29.605L8.69,29.605z M69.077,42.998h9.866v65.314 h-9.866V42.998L69.077,42.998z M30.072,42.998h9.867v65.314h-9.867V42.998L30.072,42.998z M49.572,42.998h9.869v65.314h-9.869 V42.998L49.572,42.998z"
+                                />
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

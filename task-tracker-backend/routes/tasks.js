@@ -20,7 +20,7 @@ router
   })
   .post(async (req, res) => {
     const { title, status, description, due_datetime } = req.body;
-    if (!title || !status || !['PENDING', 'IN PROGRESS', 'COMPLETED'].includes(status) || !due_datetime) return res.status(400).json({error: 'Invalid data. All fields are required and cannot be empty'});
+    if (!title || !status || status != "PENDING" || !due_datetime) return res.status(400).json({error: 'Invalid data. All fields are required and cannot be empty'});
     
     try{
         await db.query('INSERT INTO tasks (title, status, description, due_datetime) Values($1, $2, $3, $4)', [title, status, description, due_datetime]);
