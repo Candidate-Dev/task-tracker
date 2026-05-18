@@ -1,11 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../config/db.js');
+// const db = require('../config/db.js');
+import db from'../config/db.js';
 
-
-router
-  .route('/task')
-  .get(async (req, res) => {
+const getAllTasks = async (req, res) => {
     try{
       const allTasks = await db.query('SELECT * FROM tasks');
       res.send(allTasks.rows);
@@ -17,8 +13,9 @@ router
         error: 'Database query failed' 
       });
     }
-  })
-  .post(async (req, res) => {
+}
+
+const createTask = async (req, res) => {
     const { title, status, description, due_datetime } = req.body;
     if (!title || !status || status != "PENDING" || !due_datetime) return res.status(400).json({error: 'Invalid data. All fields are required and cannot be empty'});
     
@@ -34,13 +31,9 @@ router
         });
     }
 
-  })
+}
 
-
-
-router
-  .route('/task/:id')
-  .get(async(req, res) => {
+const getTask = async(req, res) => {
     const { id } = req.params;
     
     try{
@@ -54,8 +47,9 @@ router
           error: 'Database query failed' 
         });
     }
-  })
-  .patch(async (req, res) => {
+}
+
+const updateStatus = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body
     if (! status || !['PENDING', 'IN PROGRESS', 'COMPLETED'].includes(status)) {
@@ -73,8 +67,9 @@ router
           error: 'Database query failed' 
         });
     }
-  })
-  .delete(async (req,res) => {
+}
+
+const deleteTask = async (req,res) => {
     const { id } = req.params;
 
     try{
@@ -88,8 +83,9 @@ router
           error: 'Database query failed' 
         });
     }
-  })
+}
+
+export default  { getAllTasks, createTask, getTask, updateStatus, deleteTask };
 
 
 
-module.exports = router
