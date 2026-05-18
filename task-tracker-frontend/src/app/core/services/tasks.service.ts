@@ -8,8 +8,8 @@ import { HttpClient } from '@angular/common/http';
 export class TasksService {
   private httpClient = inject(HttpClient);
   
-  getTasks(): Observable<Task[]> {
-    return this.httpClient.get<Task[]>('http://localhost:3000/task');
+  getTasks(): Observable<{ tasks: Task[] }> {
+    return this.httpClient.get<{ tasks: Task[] }>('http://localhost:3000/task');
   }
 
   createTask(task: Task): Observable<{ message: string }>{

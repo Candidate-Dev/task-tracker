@@ -4,7 +4,7 @@ import db from'../config/db.js';
 const getAllTasks = async (req, res) => {
     try{
       const allTasks = await db.query('SELECT * FROM tasks');
-      res.send(allTasks.rows);
+      res.status(200).json({ tasks: allTasks.rows });
     } catch (err) {
       console.error('Database Error:', err.message);
     
@@ -21,7 +21,7 @@ const createTask = async (req, res) => {
     
     try{
         await db.query('INSERT INTO tasks (title, status, description, due_datetime) Values($1, $2, $3, $4)', [title, status, description, due_datetime]);
-        res.status(200).json({message: "Task Created"});
+        res.status(201).json({message: "Task Created"});
     } catch (err) {
         console.error('Database Error:', err.message);
       
@@ -38,7 +38,7 @@ const getTask = async(req, res) => {
     
     try{
         const taskWithId = await db.query('SELECT * FROM tasks WHERE id=$1', [id]);
-        res.send(taskWithId.rows);
+        res.status(200).json({ task: taskWithId.rows });
     } catch (err) {
         console.error('Database Error:', err.message);
       

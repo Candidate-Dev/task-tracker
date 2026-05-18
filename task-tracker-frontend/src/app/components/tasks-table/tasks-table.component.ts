@@ -40,8 +40,8 @@ export class TasksTableComponent {
   getTasks(){
     this.tasksService.getTasks().subscribe({
       next: (data) => {
-        this.tasks = data,
-        this.filteredTasks = data
+        this.tasks = data.tasks,
+        this.filteredTasks = data.tasks
       },
       error: (err) => {
         console.error('Failed to create task:', err);
