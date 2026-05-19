@@ -16,6 +16,7 @@ export class TasksTableComponent {
   private tasksService = inject(TasksService); 
   private dialog = inject(Dialog);
   openStatusDropdownTaskId: number | null = null;
+  openDescrDropdownTaskId: number | null = null;
   activeFilterButton: string = 'ALL';
 
   tasks: Task[] = [];
@@ -26,7 +27,10 @@ export class TasksTableComponent {
 
   openCreateTaskForm(){
     const dialog = this.dialog.open(CreateTaskFormComponent, {
-      panelClass: [ 
+      disableClose: true,
+      panelClass: [
+        'w-full',
+        'overflow-y-auto'
       ]
     });
 
@@ -74,11 +78,19 @@ export class TasksTableComponent {
     })
   }
 
-  toggleDropdown(taskId: number) {
+  toggleStatusDropdown(taskId: number) {
     if(this.openStatusDropdownTaskId === taskId){
       this.openStatusDropdownTaskId = null;
     }else{
       this.openStatusDropdownTaskId = taskId;
+    }
+  }
+
+  toggleDescriptionDropdown(taskId: number){
+    if(this.openDescrDropdownTaskId === taskId){
+      this.openDescrDropdownTaskId = null;
+    }else{
+      this.openDescrDropdownTaskId = taskId;
     }
   }
 

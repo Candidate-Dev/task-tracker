@@ -1,94 +1,96 @@
-<form [formGroup]="taskForm" class="space-y-5 bg-white w-full"  (ngSubmit)="onSubmit()">
-  <div>
-    <label class="block mb-2 font-medium">
-      Create Task
-    </label>
+<div class="form-container w-full flex items-center justify-center"> 
+  <form [formGroup]="taskForm" class="bg-white rounded-md p-10 w-lg flex flex-col gap-4 shadow-sm shadow-gray-500"  (ngSubmit)="onSubmit()">
+    <div class="title-input-container">
+      <label class="block font-semibold mb-1">
+        Title*
+      </label>
 
-    <input
-      type="text"
-      formControlName="title"
-      class="w-full border border-gray-300 rounded-lg px-4 py-2"
-      placeholder="Enter task title"
-    />
+      <input
+        type="text"
+        formControlName="title"
+        class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-gray-500 focus:border-2"
+        placeholder="Task Title"
+      />
 
-    @if (
-      taskForm.controls.title.touched &&
-      taskForm.controls.title.invalid
-    ) {
-      <p class="text-red-500 text-sm mt-1">
-        Title is required.
-      </p>
-    }
-  </div>
+      @if (
+        taskForm.controls.title.touched &&
+        taskForm.controls.title.invalid
+      ) {
+        <p class="text-red-500 text-sm mt-1">
+          Title is required.
+        </p>
+      }
+    </div>
 
-  <!-- STATUS -->
-  <div>
-    <label class="block mb-2 font-medium">
-      Status
-    </label>
+    <!-- STATUS -->
+    <div class="status-input-container">
+      <label class="block font-semibold mb-1">
+        Status*
+      </label>
 
-    <input
-      type="text"
-      formControlName="status"
-      class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-gray-100 text-gray-500"
-    />
-  </div>
+      <input
+        type="text"
+        formControlName="status"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-gray-100 text-gray-500"
+      />
+    </div>
 
-  <!-- DESCRIPTION -->
-  <div>
-    <label class="block mb-2 font-medium">
-      Description
-    </label>
+    <!-- DESCRIPTION -->
+    <div>
+      <label class="block font-semibold mb-1">
+        Description(optional)
+      </label>
 
-    <textarea
-      formControlName="description"
-      rows="4"
-      class="w-full border border-gray-300 rounded-lg px-4 py-2"
-      placeholder="Optional description"
-    ></textarea>
-  </div>
+      <textarea
+        formControlName="description"
+        rows="4"
+        class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-gray-500 focus:border-2"
+        placeholder="Task Description"
+      ></textarea>
+    </div>
 
-  <!-- DUE DATE -->
-  <div>
-    <label class="block mb-2 font-medium">
-      Due Date & Time
-    </label>
+    <!-- DUE DATE -->
+    <div>
+      <label class="block font-semibold mb-1">
+        Due Date & Time*
+      </label>
 
-    <input
-      type="datetime-local"
-      formControlName="due_datetime"
-      class="w-full border border-gray-300 rounded-lg px-4 py-2"
-    />
+      <input
+        type="datetime-local"
+        formControlName="due_datetime"
+        class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-gray-500 focus:border-2"
+      />
 
-    @if (
-      taskForm.controls.due_datetime.touched &&
-      taskForm.controls.due_datetime.invalid
-    ) {
-      <p class="text-red-500 text-sm mt-1">
-        Due date is required.
-      </p>
-    }
-  </div>
+      @if (
+        taskForm.controls.due_datetime.touched &&
+        taskForm.controls.due_datetime.invalid
+      ) {
+        <p class="text-red-500 text-sm mt-1">
+          Due date is required.
+        </p>
+      }
+    </div>
 
-  <!-- BUTTONS -->
-  <div class="flex justify-end gap-3">
+    <!-- BUTTONS -->
+    <div class="flex justify-end gap-3">
 
-    <button
-      type="button"
-      class="px-4 py-2 border border-gray-300 rounded-lg"
-      (click)="closeDialog()"
-    >
-      Cancel
-    </button>
+      <button
+        type="button"
+        class="px-4 py-2 border-2 border-indigo-500 font-semibold text-indigo-500 rounded-md hover:cursor-pointer hover:border-indigo-700 hover:text-indigo-700"
+        (click)="closeDialog()"
+      >
+        Cancel
+      </button>
 
-    <button
-      type="submit"
-      [disabled]="taskForm.invalid"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg disabled:bg-gray-400"
-    >
-      Create Task
-    </button>
+      <button
+        type="submit"
+        [disabled]="taskForm.invalid"
+        class="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-md disabled:bg-gray-400 disabled:font-semibold hover:cursor-pointer hover:bg-indigo-800"
+      >
+        Create Task
+      </button>
 
-  </div>
+    </div>
 
-</form>
+  </form>
+</div>

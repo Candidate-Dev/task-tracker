@@ -30,7 +30,6 @@
    <table class="w-full">
         <thead class="bg-gray-200 border-b border-gray-300 text-gray-500">
         <tr>
-            <th class="p-2 text-left"></th>
             <th class="p-2 text-sm font-bold tracking-wide text-left">Id</th>
             <th class="p-2 text-sm font-bold tracking-wide text-left">Title</th>
             <th class="p-2 text-sm font-bold tracking-wide text-left">Description</th>
@@ -43,28 +42,39 @@
         <tbody>
             @for (task of filteredTasks; track task.id; let idx = $index) {
                 <tr class="odd:bg-white even:bg-gray-100">
-                    <td class="p-2"><input type="checkbox" class="hover:cursor-pointer"></td>
                     <td class="p-2 text-sm text-gray-800">{{ task.id }}</td>
-                    <td class="p-2 text-sm text-gray-800">{{ task.title }}</td>
-                    <td class="p-2 text-sm text-gray-800">{{ task.description }}</td>
+                    <td class="p-2 text-sm text-black font-semibold">{{ task.title }}</td>
+                    <td class="p-2 text-sm text-gray-800">
+                        @if(task.description){
+                            <button (click)="toggleDescriptionDropdown(task.id!)" class="hover:cursor-pointer text-indigo-500 font-semibold hover:text-indigo-700">Description</button>
+                        }@else{
+                            <div>No description</div>
+                        }
+                    
+                        @if(openDescrDropdownTaskId === task.id){
+                            <div class="description-dropdown p-1 absolute mt-1 w-60 rounded bg-white shadow-sm shadow-gray-500 z-10 resize-y resize overflow-auto block">
+                                {{ task.description }}
+                            </div>
+                        }
+                    </td>
                     <td>
                         @if(task.status === 'COMPLETED'){
-                            <div (click)="toggleDropdown(task.id!)" class="border-2 text-xs w-fit py-1 px-2 rounded-md text-green-600 border-green-300 font-semibold border-green-300 hover:text-green-500 hover:border-green-200 hover:cursor-pointer">{{ task.status }}</div>
+                            <div (click)="toggleStatusDropdown(task.id!)" class="border-2 text-xs w-fit py-1 px-2 rounded-md text-green-600 border-green-300 font-semibold border-green-300 hover:text-green-500 hover:border-green-200 hover:cursor-pointer">{{ task.status }}</div>
                         }@else if (task.status === 'PENDING') {
-                            <div (click)="toggleDropdown(task.id!)" class="border-2 text-xs w-fit py-1 px-2 rounded-md text-yellow-500 border-amber-200 font-semibold hover:yellow-400 hover:border-amber-100 hover:cursor-pointer">{{ task.status }}</div>
+                            <div (click)="toggleStatusDropdown(task.id!)" class="border-2 text-xs w-fit py-1 px-2 rounded-md text-yellow-500 border-amber-200 font-semibold hover:yellow-400 hover:border-amber-100 hover:cursor-pointer">{{ task.status }}</div>
                         }@else if (task.status === 'IN PROGRESS') {
-                            <div (click)="toggleDropdown(task.id!)" class="border-2 text-xs w-fit py-1 px-2 rounded-md text-blue-400 border-blue-200 font-semibold hover:text-blue-300 hover:border-blue-100 hover:cursor-pointer">{{ task.status }}</div>
+                            <div (click)="toggleStatusDropdown(task.id!)" class="border-2 text-xs w-fit py-1 px-2 rounded-md text-blue-400 border-blue-200 font-semibold hover:text-blue-300 hover:border-blue-100 hover:cursor-pointer">{{ task.status }}</div>
                         }
                         @if (openStatusDropdownTaskId === task.id) {
-                            <div class="absolute mt-1 w-36 rounded border bg-white shadow-md z-10">
-                                <div (click)="updateStatus(task.id, 'PENDING')" class="block w-full text-left px-3 py-2 text-xs hover:bg-gray-100 cursor-pointer">PENDING</div>
-                                <div (click)="updateStatus(task.id, 'COMPLETED')" class="block w-full text-left px-3 py-2 text-xs hover:bg-gray-100 cursor-pointer">COMPLETED</div>
-                                <div (click)="updateStatus(task.id, 'IN PROGRESS')" class="block w-full text-left px-3 py-2 text-xs hover:bg-gray-100 cursor-pointer">IN PROGRESS</div>
+                            <div class="absolute mt-1 w-36 rounded bg-white shadow-sm shadow-gray-500 z-10">
+                                <div (click)="updateStatus(task.id, 'PENDING')" class="block py-2 px-2 border-b border-gray-400 w-full text-left text-xs hover:bg-gray-100 cursor-pointer">PENDING</div>
+                                <div (click)="updateStatus(task.id, 'COMPLETED')" class="block py-2 px-2 border-b border-gray-400 w-full text-left text-xs hover:bg-gray-100 cursor-pointer">COMPLETED</div>
+                                <div (click)="updateStatus(task.id, 'IN PROGRESS')" class="block py-2 px-2 w-full text-left text-xs hover:bg-gray-100 cursor-pointer">IN PROGRESS</div>
                             </div>
                         }
                     </td>
                     <td class="p-2 text-sm text-gray-800">{{ task.due_datetime | date:'medium' }}</td>
-                    <td>
+                    <td class="p-2 text-right">
                         <button (click)="removeTask(task.id!)" class="text-gray-400 hover:text-red-600 hover:cursor-pointer">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

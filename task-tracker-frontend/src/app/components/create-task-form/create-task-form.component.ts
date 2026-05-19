@@ -29,6 +29,7 @@ export class CreateTaskFormComponent {
   onSubmit(){
     if(this.taskForm.valid){
       const newTask = this.taskForm.getRawValue() as Task;
+      
       this.tasksService.createTask(newTask).subscribe({
       next: (response) => {
         console.log(response.message);
