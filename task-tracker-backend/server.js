@@ -13,10 +13,10 @@ import cors from 'cors';
 const port = process.env.PORT | 3000;
 app.use(express.json());
 
-app.use(cors())
+app.use(cors());
 
 app.use('/', taskRouter);
-
-app.listen(port, '0.0.0.0',() => {
+app.get('/favicon.ico', (req, res) => res.status(204));
+app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 });
