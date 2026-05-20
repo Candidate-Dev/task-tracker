@@ -15,7 +15,7 @@ export class CreateTaskFormComponent {
   private tasksService = inject(TasksService);
   private dialogRef = inject(DialogRef);
   taskForm = this.formBuilder.group({
-    title: ['', Validators.required],
+    title: ['', [Validators.required, Validators.maxLength(40)]],
 
     status: [
       { value: 'PENDING', disabled: true }
