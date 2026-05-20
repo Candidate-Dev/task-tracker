@@ -1,5 +1,5 @@
 <!-- <button (click)="console()">Display tasks</button> -->
-<div id="table-wrapper" class="border border-gray-300 rounded-md overflow-auto">
+<div id="table-wrapper" class="border-1 border-gray-300 rounded-md">
     <div id="table-toolbar" class="flex flex-col md:flex-row border-b border-gray-300 mb-3 justify-between items-start md:items-end">
         <button (click)="openCreateTaskForm()" class="bg-indigo-600 m-3 px-2 py-2 md:px-3 md:py-2 rounded-md text-white text-xs font-bold md:text-sm hover:bg-indigo-400 hover:cursor-pointer" id="create-task">+ Create Task</button>
         <div class="flex justify-end pt-3" id="status-filter-buttons-container">
@@ -25,9 +25,10 @@
             >Completed</button>
         </div>
     </div>
-
+    
+    
    <table class="w-full">
-        <thead class="bg-gray-200 border-b border-gray-300 text-gray-500">
+        <thead class="top-0 z-10 bg-gray-200 border-b border-gray-300 text-gray-500">
         <tr>
             <th class="p-2 text-sm font-bold tracking-wide text-left">Id</th>
             <th class="p-2 text-sm font-bold tracking-wide text-left">Title</th>
@@ -57,7 +58,7 @@
                         }
                     </td>
                     <!-- <td class="whitespace-nowrap relative"> -->
-                        <td class="whitespace-nowrap">
+                        <td class="whitespace-nowrap relative">
                                 @if(task.status === 'COMPLETED'){
                                 <div 
                                     (click)="toggleStatusDropdown(task.id!)" 
@@ -131,4 +132,5 @@
         </tbody>
 
     </table>
+    
 </div>
