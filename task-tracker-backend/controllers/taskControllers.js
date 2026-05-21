@@ -1,4 +1,3 @@
-// const db = require('../config/db.js');
 import db from'../config/db.js';
 
 const getAllTasks = async (req, res) => {
@@ -17,7 +16,7 @@ const getAllTasks = async (req, res) => {
 
 const createTask = async (req, res) => {
     const { title, status, description, due_datetime } = req.body;
-    if (!title || !status || status != "PENDING" || !due_datetime) return res.status(400).json({error: 'Invalid data. All fields are required and cannot be empty'});
+    if (!title || !status || status != "PENDING" || !due_datetime) return res.status(400).json({error: "Invalid data. All fields are required and cannot be empty. Status 'PENDING' is required"});
     
     try{
         await db.query('INSERT INTO tasks (title, status, description, due_datetime) Values($1, $2, $3, $4)', [title, status, description, due_datetime]);
@@ -38,6 +37,7 @@ const getTask = async(req, res) => {
     
     try{
         const taskWithId = await db.query('SELECT * FROM tasks WHERE id=$1', [id]);
+        if(taskWithId.rowCount === 0) return res.status(404).json({ error: "Task not found" });
         res.status(200).json({ task: taskWithId.rows });
     } catch (err) {
         console.error('Database Error:', err.message);
@@ -57,7 +57,8 @@ const updateStatus = async (req, res) => {
     }
 
     try{
-        await db.query('UPDATE tasks SET status=$1 WHERE id=$2', [status, id]);
+        const updateTask = await db.query('UPDATE tasks SET status=$1 WHERE id=$2', [status, id]);
+        if(updateTask.rowCount === 0) return res.status(404).json({ error: "Task not found" });
         res.status(200).json({message: "Status Updated"});
     } catch (err) {
         console.error('Database Error:', err.message);
@@ -73,7 +74,8 @@ const deleteTask = async (req,res) => {
     const { id } = req.params;
 
     try{
-        await db.query('DELETE FROM tasks WHERE id=$1', [id]);
+        let delTask = await db.query('DELETE FROM tasks WHERE id=$1', [id]);
+        if(delTask.rowCount === 0) return res.status(404).json({ error: "Task not found" });
         res.status(200).json({message: "Task Deleted"});
     } catch (err) {
         console.error('Database Error:', err.message);

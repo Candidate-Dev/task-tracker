@@ -104,7 +104,4 @@ export class TasksTableComponent {
   
   }
 
-  console(){
-    console.log(this.tasks);
-  }
 }

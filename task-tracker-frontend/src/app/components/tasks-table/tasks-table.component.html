@@ -1,4 +1,3 @@
-<!-- <button (click)="console()">Display tasks</button> -->
 <div id="table-wrapper" class="border-1 border-gray-300 rounded-md">
     <div id="table-toolbar" class="flex flex-col md:flex-row border-b border-gray-300 mb-3 justify-between items-start md:items-end">
         <button (click)="openCreateTaskForm()" class="bg-indigo-600 m-3 px-2 py-2 md:px-3 md:py-2 rounded-md text-white text-xs font-bold md:text-sm hover:bg-indigo-400 hover:cursor-pointer" id="create-task">+ Create Task</button>
@@ -57,12 +56,25 @@
                             </div>
                         }
                     </td>
-                    <!-- <td class="whitespace-nowrap relative"> -->
-                        <td class="whitespace-nowrap relative">
-                                @if(task.status === 'COMPLETED'){
+                    
+                    <td class="whitespace-nowrap relative">
+                        @if(task.status === 'COMPLETED'){
+                        <div 
+                            (click)="toggleStatusDropdown(task.id!)" 
+                            class="flex items-center gap-2 border-2 text-xs w-fit py-1 px-2 rounded-md text-green-600 border-green-300 font-semibold border-green-300 hover:text-green-500 hover:border-green-200 hover:cursor-pointer"
+                        >
+                            {{ task.status }}
+                            @if(openStatusDropdownTaskId != task.id){
+                                <svg class="h-1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 63.9" style="enable-background:new 0 0 122.88 63.9" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><polygon points="61.44,63.9 122.88,0 0,0 61.44,63.9"/></g></svg>
+                            }@else{
+                                <svg class="h-1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 63.9" style="enable-background:new 0 0 122.88 63.9" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><polygon points="61.44,0 122.88,63.9 0,63.9 61.44,0"/></g></svg>
+                            }
+                        </div>
+                        }@else if (task.status === 'PENDING') {
+                            <div>
                                 <div 
                                     (click)="toggleStatusDropdown(task.id!)" 
-                                    class="flex items-center gap-2 border-2 text-xs w-fit py-1 px-2 rounded-md text-green-600 border-green-300 font-semibold border-green-300 hover:text-green-500 hover:border-green-200 hover:cursor-pointer"
+                                    class="flex gap-2 justify-center items-center border-2 text-xs w-fit py-1 px-2 rounded-md text-yellow-500 border-amber-200 font-semibold hover:yellow-400 hover:border-amber-100 hover:cursor-pointer"
                                 >
                                     {{ task.status }}
                                     @if(openStatusDropdownTaskId != task.id){
@@ -71,41 +83,27 @@
                                         <svg class="h-1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 63.9" style="enable-background:new 0 0 122.88 63.9" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><polygon points="61.44,0 122.88,63.9 0,63.9 61.44,0"/></g></svg>
                                     }
                                 </div>
-                                }@else if (task.status === 'PENDING') {
-                                    <div>
-                                        <div 
-                                            (click)="toggleStatusDropdown(task.id!)" 
-                                            class="flex gap-2 justify-center items-center border-2 text-xs w-fit py-1 px-2 rounded-md text-yellow-500 border-amber-200 font-semibold hover:yellow-400 hover:border-amber-100 hover:cursor-pointer"
-                                        >
-                                            {{ task.status }}
-                                            @if(openStatusDropdownTaskId != task.id){
-                                                <svg class="h-1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 63.9" style="enable-background:new 0 0 122.88 63.9" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><polygon points="61.44,63.9 122.88,0 0,0 61.44,63.9"/></g></svg>
-                                            }@else{
-                                                <svg class="h-1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 63.9" style="enable-background:new 0 0 122.88 63.9" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><polygon points="61.44,0 122.88,63.9 0,63.9 61.44,0"/></g></svg>
-                                            }
-                                        </div>
-                                    </div>
-
-                                }@else if (task.status === 'IN PROGRESS') {
-                                    <div 
-                                        (click)="toggleStatusDropdown(task.id!)" 
-                                        class="flex items-center gap-2 border-2 text-xs w-fit py-1 px-2 rounded-md text-blue-400 border-blue-200 font-semibold hover:text-blue-300 hover:border-blue-100 hover:cursor-pointer"
-                                    >
-                                        {{ task.status }}
-                                        @if(openStatusDropdownTaskId != task.id){
-                                            <svg class="h-1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 63.9" style="enable-background:new 0 0 122.88 63.9" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><polygon points="61.44,63.9 122.88,0 0,0 61.44,63.9"/></g></svg>
-                                        }@else{
-                                            <svg class="h-1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 63.9" style="enable-background:new 0 0 122.88 63.9" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><polygon points="61.44,0 122.88,63.9 0,63.9 61.44,0"/></g></svg>
-                                        }
-                                    </div>
+                            </div>
+                        }@else if (task.status === 'IN PROGRESS') {
+                            <div 
+                                (click)="toggleStatusDropdown(task.id!)" 
+                                class="flex items-center gap-2 border-2 text-xs w-fit py-1 px-2 rounded-md text-blue-400 border-blue-200 font-semibold hover:text-blue-300 hover:border-blue-100 hover:cursor-pointer"
+                            >
+                                {{ task.status }}
+                                @if(openStatusDropdownTaskId != task.id){
+                                    <svg class="h-1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 63.9" style="enable-background:new 0 0 122.88 63.9" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><polygon points="61.44,63.9 122.88,0 0,0 61.44,63.9"/></g></svg>
+                                }@else{
+                                    <svg class="h-1" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 63.9" style="enable-background:new 0 0 122.88 63.9" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style><g><polygon points="61.44,0 122.88,63.9 0,63.9 61.44,0"/></g></svg>
                                 }
-                                @if (openStatusDropdownTaskId === task.id) {
-                                    <div class="md:absolute mt-1 w-36 rounded bg-white shadow-sm shadow-gray-500 z-10">
-                                        <div (click)="updateStatus(task.id, 'PENDING')" class="block py-2 px-2 border-b border-gray-400 w-full text-left text-xs hover:bg-gray-100 cursor-pointer">PENDING</div>
-                                        <div (click)="updateStatus(task.id, 'COMPLETED')" class="block py-2 px-2 border-b border-gray-400 w-full text-left text-xs hover:bg-gray-100 cursor-pointer">COMPLETED</div>
-                                        <div (click)="updateStatus(task.id, 'IN PROGRESS')" class="block py-2 px-2 w-full text-left text-xs hover:bg-gray-100 cursor-pointer">IN PROGRESS</div>
-                                    </div>
-                                }
+                            </div>
+                        }
+                        @if (openStatusDropdownTaskId === task.id) {
+                            <div class="md:absolute mt-1 w-36 rounded bg-white shadow-sm shadow-gray-500 z-10">
+                                <div (click)="updateStatus(task.id, 'PENDING')" class="block py-2 px-2 border-b border-gray-400 w-full text-left text-xs hover:bg-gray-100 cursor-pointer">PENDING</div>
+                                <div (click)="updateStatus(task.id, 'COMPLETED')" class="block py-2 px-2 border-b border-gray-400 w-full text-left text-xs hover:bg-gray-100 cursor-pointer">COMPLETED</div>
+                                <div (click)="updateStatus(task.id, 'IN PROGRESS')" class="block py-2 px-2 w-full text-left text-xs hover:bg-gray-100 cursor-pointer">IN PROGRESS</div>
+                            </div>
+                        }
                             
                             
                     </td>
